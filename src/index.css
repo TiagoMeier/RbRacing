@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-rb-white text-rb-gray-900 font-sans antialiased overflow-x-hidden;
+    @apply dark:bg-rb-gray-950 dark:text-rb-gray-100;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+}
+
+@layer components {
+  .container-rb {
+    @apply max-w-7xl mx-auto px-6 lg:px-12;
+  }
+
+  .display-text {
+    @apply font-display tracking-wide leading-none;
+  }
+
+  .mono-label {
+    @apply font-mono text-xs uppercase tracking-[0.2em] text-rb-gray-500 dark:text-rb-gray-400;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-3 bg-rb-red text-white font-display tracking-wider text-lg px-8 py-4 transition-all duration-300 hover:bg-rb-red-dark hover:gap-5 relative overflow-hidden;
+    clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-3 border-2 border-rb-gray-900 dark:border-rb-gray-100 text-rb-gray-900 dark:text-rb-gray-100 font-display tracking-wider text-lg px-8 py-4 transition-all duration-300 hover:bg-rb-gray-900 dark:hover:bg-rb-gray-100 hover:text-white dark:hover:text-rb-gray-950 hover:gap-5;
+  }
+
+  .diagonal-cut {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 5% 100%);
+  }
+
+  .diagonal-cut-reverse {
+    clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
+  }
+
+  .section-divider {
+    @apply h-px bg-gradient-to-r from-transparent via-rb-gray-300 dark:via-rb-gray-700 to-transparent;
+  }
+
+  .surface {
+    @apply bg-rb-white dark:bg-rb-gray-950;
+  }
+
+  .surface-alt {
+    @apply bg-rb-gray-50 dark:bg-rb-gray-900;
+  }
+
+  .surface-invert {
+    @apply bg-rb-gray-950 dark:bg-rb-gray-900 text-white;
+  }
+
+  .text-primary {
+    @apply text-rb-gray-950 dark:text-rb-gray-50;
+  }
+
+  .text-muted {
+    @apply text-rb-gray-600 dark:text-rb-gray-400;
+  }
+
+  .card {
+    @apply bg-rb-gray-50 dark:bg-rb-gray-900 transition-all duration-500;
+  }
+
+  .card-hover {
+    @apply hover:bg-white dark:hover:bg-rb-gray-800 hover:shadow-2xl dark:hover:shadow-rb-red/20;
+  }
+}
+
+/* Speed lines decoration */
+.speed-lines {
+  background-image: repeating-linear-gradient(
+    -20deg,
+    transparent,
+    transparent 8px,
+    rgba(200, 16, 46, 0.04) 8px,
+    rgba(200, 16, 46, 0.04) 9px
+  );
+}
+
+.dark .speed-lines {
+  background-image: repeating-linear-gradient(
+    -20deg,
+    transparent,
+    transparent 8px,
+    rgba(200, 16, 46, 0.08) 8px,
+    rgba(200, 16, 46, 0.08) 9px
+  );
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #F4F4F5;
+}
+.dark ::-webkit-scrollbar-track {
+  background: #18181B;
+}
+::-webkit-scrollbar-thumb {
+  background: #C8102E;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8B0A1F;
+}
+
+/* Selection */
+::selection {
+  background: #C8102E;
+  color: white;
+}
+
+/* Marquee */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+/* Loader animation */
+.tachometer-needle {
+  transform-origin: bottom center;
+  animation: tachometer 2.5s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+}
+
+@keyframes tachometer {
+  0% { transform: rotate(-90deg); }
+  60% { transform: rotate(90deg); }
+  75% { transform: rotate(60deg); }
+  100% { transform: rotate(85deg); }
+}
+
+/* Lightbox backdrop */
+.lightbox-backdrop {
+  backdrop-filter: blur(8px);
+}
+
+/* WhatsApp float button pulse */
+@keyframes whatsapp-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+  50% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); }
+}
+
+.whatsapp-float {
+  animation: whatsapp-pulse 2.5s ease-in-out infinite;
+}
+
+/* Hide on print */
+@media print {
+  .no-print { display: none; }
+}
