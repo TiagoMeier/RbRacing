@@ -1,84 +1,94 @@
-# RB Racing — Sitio Web
+# RB Racing — Sitio Web (v2 Minimal Premium)
 
 Sitio web oficial de **RB Racing**, taller de mecánica, competición y electromecánica en Villa Carlos Paz, Córdoba.
 
-## ✨ Features
+Versión rediseñada con filosofía **minimal premium** inspirada en marcas como Polestar, Tesla y Rivian. Menos elementos, más impacto.
 
-- 🎨 **Diseño moderno y minimalista** con identidad racing (paleta blanco/gris/rojo)
-- 🌓 **Modo claro y oscuro** (toggle en el navbar, recuerda preferencia)
-- ⚡ **Splash screen** con animación de tacómetro al cargar (solo primera vez por sesión)
-- 📱 **100% responsive** — mobile, tablet y desktop
-- 🚀 **SEO optimizado** — meta tags, Open Graph, Schema.org LocalBusiness
-- 💬 **Botón flotante de WhatsApp** con tooltip animado
-- 🖼️ **Galería con lightbox** (navegación con teclado: ← → Esc)
-- ⭐ **Sección de testimonios**
-- ❓ **FAQ con acordeón animado**
-- 🏷️ **Marquee de marcas** con efecto infinito
-- ✨ **Animaciones al scroll** con Framer Motion
-- 📊 **Contadores animados** en stats
-- 🔝 **Botón "volver arriba"** flotante
-- 🗺️ **Mapa integrado** con efecto grayscale
+## ✨ Filosofía
+
+> "Lo perfecto se alcanza no cuando no hay nada más que añadir, sino cuando no hay nada más que quitar." — Antoine de Saint-Exupéry
+
+Esta versión eliminó el ruido visual para dejar protagonista al contenido real: las fotos del taller, los servicios y la marca. La diferencia con la versión anterior es **calidad sobre cantidad**.
+
+### Lo que se mantiene
+- 🎨 Diseño premium con tipografía Inter cuidadosamente trabajada
+- 🌓 Modo claro / oscuro (recuerda preferencia)
+- 📱 100% responsive — mobile, tablet, desktop
+- 🚀 SEO completo + Schema.org LocalBusiness
+- 📲 PWA — instalable como app + offline
+- 💬 WhatsApp flotante (sin animaciones invasivas)
+- 🖼️ Imágenes WebP optimizadas (415 KB total)
+- 🎯 Logo SVG vectorial
+
+### Lo que se eliminó (intencional)
+- Splash screen con tacómetro
+- Marquee de marcas
+- Cursor custom
+- FAQ con acordeón
+- Timeline de historia
+- Stats animados
+- Testimonios placeholder
+- Speed-lines de fondo
+- Diagonales rojas y clip-paths
+- Cotizador multi-paso
+- Framer Motion (animaciones nativas con IntersectionObserver)
+- Sección "Nosotros" como página separada
+
+**Resultado:** -50% bundle size (207 KB vs 391 KB de JS), tiempo de carga más rápido, foco visual claro.
 
 ## 🛠️ Stack
 
-- **React 18** + **Vite** + **SWC** (compilación rápida)
-- **Tailwind CSS** (con dark mode)
-- **React Router** (navegación entre páginas)
-- **Framer Motion** (animaciones)
-- **React Helmet Async** (SEO dinámico)
+- React 18 + Vite + SWC
+- Tailwind CSS con dark mode
+- React Router
+- React Helmet Async (SEO)
+- IntersectionObserver nativo (reveal en scroll)
 
 ## 🚀 Cómo correrlo
 
 ```bash
 npm install
 npm run dev          # http://localhost:5173
-npm run build        # Build de producción
-npm run preview      # Preview del build
+npm run build
+npm run preview
 ```
 
 ## 📁 Estructura
 
 ```
+public/
+├── favicon.svg
+├── icon-192.png / icon-512.png
+├── manifest.json (PWA)
+├── og-image.png (1200×630 para compartir)
+└── sw.js (service worker)
+
 src/
-├── assets/                   # Logo y fotos del taller
+├── assets/           # Fotos WebP del taller
 ├── components/
-│   ├── Navbar.jsx            # Barra superior + theme toggle
-│   ├── Footer.jsx            # Footer + redes + back-to-top
-│   ├── Splash.jsx            # Splash screen con tacómetro
-│   ├── WhatsAppFloat.jsx     # Botón flotante de WhatsApp
-│   ├── Lightbox.jsx          # Visor de galería
-│   ├── Reveal.jsx            # Wrapper para animaciones al scroll
-│   ├── Seo.jsx               # Meta tags por página
-│   ├── Testimonials.jsx      # Sección de testimonios
-│   ├── BrandsMarquee.jsx     # Carrusel de marcas
-│   └── FAQ.jsx               # Preguntas frecuentes
+│   ├── Navbar.jsx           # Minimal + theme toggle
+│   ├── Footer.jsx           # 4 columnas limpio
+│   ├── Logo.jsx             # SVG inline
+│   ├── Reveal.jsx           # IntersectionObserver puro
+│   ├── Seo.jsx              # Meta tags dinámicos
+│   └── WhatsAppFloat.jsx
 ├── context/
-│   └── ThemeContext.jsx      # Estado del tema (claro/oscuro)
-├── hooks/
-│   └── useInView.js          # Hook para detectar viewport
+│   └── ThemeContext.jsx
 ├── pages/
-│   ├── Home.jsx              # Inicio
-│   ├── Services.jsx          # Servicios detallados
-│   ├── About.jsx             # Nosotros + stats
-│   └── Contact.jsx           # Contacto + form + mapa
-├── App.jsx                   # Routing principal
-├── main.jsx                  # Entry point
-└── index.css                 # Estilos + Tailwind + dark mode
+│   ├── Home.jsx             # Hero + intro + 3 servicios + galería + CTA
+│   ├── Services.jsx         # 3 áreas detalladas
+│   └── Contact.jsx          # Info + form + mapa
+├── App.jsx
+├── main.jsx
+└── index.css
 ```
 
-## 🎨 Personalizar
+## 🎨 Paleta y tipografía
 
-| Qué cambiar | Dónde |
-|---|---|
-| Logo / fotos | `src/assets/` |
-| Textos | `src/pages/*.jsx` |
-| Colores | `tailwind.config.js` → `colors.rb` |
-| Redes sociales | `src/components/Footer.jsx` |
-| Testimonios | `src/components/Testimonials.jsx` |
-| FAQs | `src/components/FAQ.jsx` |
-| Marcas del marquee | `src/components/BrandsMarquee.jsx` |
-| Meta tags SEO | `index.html` (globales) + `src/components/Seo.jsx` (por página) |
-| Schema.org | `index.html` (bloque JSON-LD) |
+- **Colores**: blanco / negro / 11 grises (`ink-*`) / 1 rojo (`accent`)
+- **Tipografía**: Inter — pesos 400, 500, 600
+- **Tamaños**: clamp-fluid (escala 100-1600px automática)
+- **Espaciado**: generoso (32px / 48px / 64px / 96px / 128px)
 
 ## 📞 Datos del taller
 
@@ -88,10 +98,15 @@ src/
 
 ## 🚀 Deploy
 
-El sitio es 100% estático, se puede deployar gratis en:
-- **Vercel** (recomendado) — conectá el repo y listo
-- **Netlify** — drag & drop de la carpeta `dist/`
-- **GitHub Pages** — con configuración mínima
-- **Cloudflare Pages** — gratis y rápido
+100% estático. Recomendado: **Vercel** o **Netlify** (gratis, SPA-aware out-of-the-box).
 
-Para SPAs con React Router, configurar redirect de todas las rutas a `/index.html`.
+## 📝 Personalizar
+
+| Qué | Dónde |
+|---|---|
+| Fotos | `src/assets/work-*.webp` |
+| Logo | `src/components/Logo.jsx` (SVG inline) |
+| Colores | `tailwind.config.js` → `colors` |
+| Textos | `src/pages/*.jsx` |
+| Redes | `src/components/Footer.jsx` |
+| Meta tags | `index.html` + `src/components/Seo.jsx` |

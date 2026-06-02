@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import Logo from './Logo'
@@ -6,7 +6,6 @@ import Logo from './Logo'
 const links = [
   { to: '/', label: 'Inicio' },
   { to: '/servicios', label: 'Servicios' },
-  { to: '/nosotros', label: 'Nosotros' },
   { to: '/contacto', label: 'Contacto' },
 ]
 
@@ -15,16 +14,16 @@ function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      className="relative w-10 h-10 flex items-center justify-center text-rb-gray-700 dark:text-rb-gray-300 hover:text-rb-red dark:hover:text-rb-red transition-colors"
+      className="w-9 h-9 flex items-center justify-center text-ink-700 dark:text-ink-300 hover:text-accent dark:hover:text-accent transition-colors"
       aria-label="Cambiar tema"
     >
       {theme === 'dark' ? (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <circle cx="12" cy="12" r="5"/>
-          <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
         </svg>
       ) : (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
       )}
@@ -37,100 +36,92 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll)
+    const onScroll = () => setScrolled(window.scrollY > 12)
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+  }, [open])
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-out-quint ${
         scrolled
-          ? 'bg-white/95 dark:bg-rb-gray-950/95 backdrop-blur-md shadow-sm dark:shadow-rb-red/5'
-          : 'bg-white dark:bg-rb-gray-950'
+          ? 'bg-white/80 dark:bg-ink-950/80 backdrop-blur-lg border-b border-ink-200/50 dark:border-ink-800/50'
+          : 'bg-transparent'
       }`}
     >
-      <div className="absolute top-0 left-0 right-0 h-1 bg-rb-red" />
-      <div className="container-rb flex items-center justify-between h-20">
-        <Link to="/" className="flex items-center gap-3 group text-rb-gray-950 dark:text-white" aria-label="RB Racing - Inicio">
-          <Logo variant="nav" className="h-12 w-auto transition-transform duration-300 group-hover:scale-105" />
+      <div className="container-rb flex items-center justify-between h-16 md:h-20">
+        {/* Logo */}
+        <Link to="/" className="flex items-center text-ink-950 dark:text-ink-50" aria-label="RB Racing - Inicio">
+          <Logo variant="nav" className="h-9 md:h-10 w-auto" />
         </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        {/* Desktop nav - centro */}
+        <nav className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
           {links.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               end={link.to === '/'}
               className={({ isActive }) =>
-                `relative px-5 py-2 font-display tracking-wider text-base transition-colors duration-200 ${
+                `px-4 py-2 text-sm transition-colors duration-300 ${
                   isActive
-                    ? 'text-rb-red'
-                    : 'text-rb-gray-900 dark:text-rb-gray-100 hover:text-rb-red dark:hover:text-rb-red'
+                    ? 'text-ink-950 dark:text-ink-50'
+                    : 'text-ink-500 dark:text-ink-400 hover:text-ink-950 dark:hover:text-ink-50'
                 }`
               }
             >
-              {({ isActive }) => (
-                <>
-                  {link.label}
-                  {isActive && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-rb-red" />
-                  )}
-                </>
-              )}
+              {link.label}
             </NavLink>
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-3">
+        {/* Right actions */}
+        <div className="flex items-center gap-3 md:gap-4">
           <ThemeToggle />
           <a
             href="https://wa.me/5493541216151"
             target="_blank"
             rel="noreferrer"
-            className="btn-primary !py-3 !px-6 !text-base"
+            className="hidden md:inline-flex btn-primary !py-2 !px-5"
           >
             WhatsApp
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 12h14m-7-7l7 7-7 7" />
-            </svg>
           </a>
-        </div>
 
-        {/* Mobile actions */}
-        <div className="md:hidden flex items-center gap-2">
-          <ThemeToggle />
+          {/* Mobile toggle */}
           <button
             onClick={() => setOpen(!open)}
-            className="flex flex-col gap-1.5 p-2"
+            className="md:hidden w-9 h-9 flex flex-col justify-center items-center gap-1.5"
             aria-label="Menú"
           >
-            <span className={`block w-6 h-0.5 bg-rb-gray-900 dark:bg-rb-gray-100 transition-transform ${open ? 'rotate-45 translate-y-2' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-rb-gray-900 dark:bg-rb-gray-100 transition-opacity ${open ? 'opacity-0' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-rb-gray-900 dark:bg-rb-gray-100 transition-transform ${open ? '-rotate-45 -translate-y-2' : ''}`} />
+            <span className={`block w-5 h-px bg-current transition-transform duration-300 ${open ? 'rotate-45 translate-y-[3px]' : ''}`} />
+            <span className={`block w-5 h-px bg-current transition-transform duration-300 ${open ? '-rotate-45 -translate-y-[3px]' : ''}`} />
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu - full screen */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 bg-white dark:bg-rb-gray-950 ${
-          open ? 'max-h-96 border-t border-rb-gray-200 dark:border-rb-gray-800' : 'max-h-0'
+        className={`md:hidden fixed inset-0 top-16 bg-white dark:bg-ink-950 transition-all duration-500 ease-out-quint ${
+          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
-        <nav className="container-rb py-6 flex flex-col gap-2">
-          {links.map((link) => (
+        <nav className="container-rb pt-12 flex flex-col gap-1">
+          {links.map((link, i) => (
             <NavLink
               key={link.to}
               to={link.to}
               end={link.to === '/'}
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
-                `font-display tracking-wider text-2xl py-2 ${
-                  isActive ? 'text-rb-red' : 'text-rb-gray-900 dark:text-rb-gray-100'
-                }`
+                `block py-4 text-4xl font-medium tracking-tight border-b border-ink-200 dark:border-ink-800 transition-all duration-500 ${
+                  open ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+                } ${isActive ? 'text-accent' : 'text-ink-950 dark:text-ink-50'}`
               }
+              style={{ transitionDelay: open ? `${i * 80 + 100}ms` : '0ms' }}
             >
               {link.label}
             </NavLink>
@@ -139,9 +130,10 @@ export default function Navbar() {
             href="https://wa.me/5493541216151"
             target="_blank"
             rel="noreferrer"
-            className="btn-primary mt-4 justify-center"
+            onClick={() => setOpen(false)}
+            className="btn-primary mt-10 justify-center w-full"
           >
-            WhatsApp
+            WhatsApp →
           </a>
         </nav>
       </div>

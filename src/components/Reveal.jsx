@@ -1,35 +1,27 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 
-const variants = {
-  up: {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0 },
-  },
-  left: {
-    hidden: { opacity: 0, x: -50 },
-    visible: { opacity: 1, x: 0 },
-  },
-  right: {
-    hidden: { opacity: 0, x: 50 },
-    visible: { opacity: 1, x: 0 },
-  },
-  scale: {
-    hidden: { opacity: 0, scale: 0.92 },
-    visible: { opacity: 1, scale: 1 },
-  },
-}
+export default function Reveal({ children, delay = 0, as: Tag = 'div', className = '' }) {
+  const ref = useRef(null)
 
-export default function Reveal({ children, direction = 'up', delay = 0, className = '' }) {
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => el.classList.add('in'), delay)
+          obs.unobserve(el)
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -50px 0px' }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [delay])
+
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
-      variants={variants[direction]}
-      className={className}
-    >
+    <Tag ref={ref} className={`reveal ${className}`}>
       {children}
-    </motion.div>
+    </Tag>
   )
 }

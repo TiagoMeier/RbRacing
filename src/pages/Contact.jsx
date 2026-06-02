@@ -1,44 +1,18 @@
 import { useState } from 'react'
 import Seo from '../components/Seo'
 import Reveal from '../components/Reveal'
-
-const contactItems = [
-  {
-    label: 'Dirección',
-    value: 'Av. Ramón J. Cárcano 2016\nX5152 Villa Carlos Paz, Córdoba',
-    href: 'https://maps.google.com/?q=Av.+Ramón+J.+Cárcano+2016,+Villa+Carlos+Paz',
-    cta: 'Ver en Maps',
-  },
-  {
-    label: 'Teléfonos',
-    value: '3541-216151\n3541-381628',
-    href: 'tel:+5493541216151',
-    cta: 'Llamar',
-  },
-  {
-    label: 'Horarios',
-    value: 'Lun a Sáb\n9:00 a 20:00 hs',
-    href: null,
-    cta: null,
-  },
-  {
-    label: 'WhatsApp',
-    value: 'Respondemos rápido\nmensajes y consultas',
-    href: 'https://wa.me/5493541216151',
-    cta: 'Escribir',
-  },
-]
+import TextReveal from '../components/TextReveal'
 
 export default function Contact() {
   const [sent, setSent] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const formData = new FormData(e.target)
-    const nombre = formData.get('nombre')
-    const vehiculo = formData.get('vehiculo')
-    const mensaje = formData.get('mensaje')
-    const text = `Hola RB Racing! Soy ${nombre}.%0A%0AVehículo: ${vehiculo}%0A%0A${mensaje}`
+    const data = new FormData(e.target)
+    const nombre = data.get('nombre')
+    const vehiculo = data.get('vehiculo')
+    const mensaje = data.get('mensaje')
+    const text = `Hola RB Racing! Soy ${nombre}.%0A%0AVeh%C3%ADculo: ${vehiculo}%0A%0A${mensaje}`
     window.open(`https://wa.me/5493541216151?text=${text}`, '_blank')
     setSent(true)
   }
@@ -47,112 +21,150 @@ export default function Contact() {
     <>
       <Seo
         title="Contacto"
-        description="Estamos en Av. Ramón J. Cárcano 2016, Villa Carlos Paz. Tel: 3541-216151. Lunes a Sábado de 9 a 20hs."
+        description="Av. Ramón J. Cárcano 2016, Villa Carlos Paz. Tel: 3541-216151. Lun a Vie 8:30 a 12:30 y 15:30 a 18:30 · Sáb 8:30 a 12:30."
         path="/contacto"
       />
 
       {/* HERO */}
-      <section className="pt-32 pb-16 surface-invert relative overflow-hidden">
-        <div className="absolute inset-0 speed-lines opacity-50" />
-        <div className="absolute top-20 left-1/2 w-96 h-96 bg-rb-red/20 rounded-full blur-3xl" />
-
-        <div className="container-rb relative">
+      <section className="pt-32 md:pt-40 pb-20 md:pb-24">
+        <div className="container-rb">
           <Reveal>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-px bg-rb-red" />
-              <span className="mono-label !text-rb-red">Contacto</span>
-            </div>
-            <h1 className="display-text text-6xl md:text-8xl lg:text-9xl mb-6 text-white">
-              HABLEMOS.
-            </h1>
-            <p className="text-lg text-rb-gray-300 max-w-2xl">
-              Pasá por el taller, llamanos o mandanos un WhatsApp.
+            <div className="micro-label !text-accent mb-8">Contacto</div>
+          </Reveal>
+          <TextReveal as="h1" className="text-ink-950 dark:text-ink-50 max-w-4xl mb-10">
+            Hablemos.
+          </TextReveal>
+          <Reveal delay={300}>
+            <p className="text-lg md:text-xl text-ink-600 dark:text-ink-400 max-w-2xl leading-relaxed">
+              Pasá por el taller, llamanos o escribinos por WhatsApp.
               Atendemos todas las consultas y damos presupuesto sin compromiso.
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* CONTACT GRID */}
-      <section className="py-20 surface">
+      {/* INFO GRID */}
+      <section className="pb-24 md:pb-32">
         <div className="container-rb">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
-            {contactItems.map((c, i) => (
-              <Reveal key={c.label} delay={i * 0.08}>
-                <div className="card p-8 group hover:bg-rb-gray-950 dark:hover:bg-rb-red hover:text-white transition-all duration-300 relative h-full">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-rb-red scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
-                  <div className="mono-label !text-rb-red mb-4 group-hover:!text-white transition-colors">{c.label}</div>
-                  <p className="font-display text-2xl tracking-wide whitespace-pre-line mb-6 text-primary group-hover:text-white transition-colors">
-                    {c.value}
-                  </p>
-                  {c.href && (
-                    <a
-                      href={c.href}
-                      target={c.href.startsWith('http') ? '_blank' : undefined}
-                      rel="noreferrer"
-                      className="text-sm font-mono uppercase tracking-widest text-rb-gray-500 group-hover:text-white transition-colors inline-flex items-center gap-2"
-                    >
-                      {c.cta} →
-                    </a>
-                  )}
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-16 border-t border-ink-200 dark:border-ink-800 pt-16">
+            <Reveal>
+              <div className="micro-label !text-accent mb-4">Dirección</div>
+              <a
+                href="https://maps.google.com/?q=Av.+Ramón+J.+Cárcano+2016,+Villa+Carlos+Paz"
+                target="_blank"
+                rel="noreferrer"
+                className="text-lg text-ink-950 dark:text-ink-50 leading-relaxed link-underline"
+              >
+                Av. Ramón J. Cárcano 2016<br />
+                Villa Carlos Paz, Córdoba
+              </a>
+            </Reveal>
 
-          {/* FORM + MAP */}
-          <div className="grid lg:grid-cols-2 gap-10">
-            <Reveal direction="left">
-              <span className="mono-label !text-rb-red">Mandanos tu consulta</span>
-              <h2 className="display-text text-4xl md:text-5xl text-primary mt-3 mb-8">
-                CONTANOS QUÉ<br />NECESITÁS.
+            <Reveal delay={80}>
+              <div className="micro-label !text-accent mb-4">Teléfono</div>
+              <div className="space-y-1">
+                <a href="tel:+5493541216151" className="block text-lg text-ink-950 dark:text-ink-50 link-underline">
+                  +54 9 3541 216151
+                </a>
+                <a href="tel:+5493541381628" className="block text-lg text-ink-950 dark:text-ink-50 link-underline">
+                  +54 9 3541 381628
+                </a>
+              </div>
+            </Reveal>
+
+            <Reveal delay={160}>
+              <div className="micro-label !text-accent mb-4">Horarios</div>
+              <div className="space-y-3 tabular-nums">
+                <div>
+                  <div className="text-xs uppercase tracking-[0.15em] text-ink-500 dark:text-ink-400 mb-1">Lun — Vie</div>
+                  <p className="text-base text-ink-950 dark:text-ink-50">
+                    8:30 — 12:30<br />
+                    15:30 — 18:30
+                  </p>
+                </div>
+                <div>
+                  <div className="text-xs uppercase tracking-[0.15em] text-ink-500 dark:text-ink-400 mb-1">Sábado</div>
+                  <p className="text-base text-ink-950 dark:text-ink-50">8:30 — 12:30</p>
+                </div>
+                <div className="text-sm text-ink-400">Domingo cerrado</div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={240}>
+              <div className="micro-label !text-accent mb-4">WhatsApp</div>
+              <a
+                href="https://wa.me/5493541216151"
+                target="_blank"
+                rel="noreferrer"
+                className="text-lg text-ink-950 dark:text-ink-50 link-underline"
+              >
+                Escribir ahora →
+              </a>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* FORM + MAP */}
+      <section className="pb-24 md:pb-32 border-t border-ink-200 dark:border-ink-800 pt-24">
+        <div className="container-rb">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+            <Reveal>
+              <div className="micro-label !text-accent mb-6">Consulta rápida</div>
+              <h2 className="text-h2 text-ink-950 dark:text-ink-50 mb-12 max-w-md">
+                Contanos qué necesitás.
               </h2>
 
               {sent ? (
-                <div className="card p-8 border-l-4 border-rb-red">
-                  <p className="font-display text-2xl text-primary mb-2">¡Mensaje enviado!</p>
-                  <p className="text-muted">Se abrió WhatsApp con tu mensaje. Te respondemos lo antes posible.</p>
+                <div className="border-l-2 border-accent pl-6 py-6">
+                  <p className="text-h3 text-ink-950 dark:text-ink-50 mb-3">Mensaje enviado.</p>
+                  <p className="text-ink-600 dark:text-ink-400">
+                    Se abrió WhatsApp con tu mensaje. Te respondemos lo antes posible.
+                  </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-8 max-w-md">
                   <div>
-                    <label className="mono-label block mb-2">Nombre</label>
+                    <label htmlFor="nombre" className="micro-label block mb-3">Nombre</label>
                     <input
                       type="text"
+                      id="nombre"
                       name="nombre"
                       required
-                      className="w-full bg-transparent border-b-2 border-rb-gray-300 dark:border-rb-gray-700 focus:border-rb-red outline-none py-3 text-lg text-primary transition-colors placeholder:text-rb-gray-400"
+                      className="w-full bg-transparent border-b border-ink-300 dark:border-ink-700 focus:border-accent outline-none py-3 text-lg text-ink-950 dark:text-ink-50 transition-colors placeholder:text-ink-400"
                       placeholder="Tu nombre"
                     />
                   </div>
                   <div>
-                    <label className="mono-label block mb-2">Vehículo</label>
+                    <label htmlFor="vehiculo" className="micro-label block mb-3">Vehículo</label>
                     <input
                       type="text"
+                      id="vehiculo"
                       name="vehiculo"
-                      className="w-full bg-transparent border-b-2 border-rb-gray-300 dark:border-rb-gray-700 focus:border-rb-red outline-none py-3 text-lg text-primary transition-colors placeholder:text-rb-gray-400"
-                      placeholder="Ej: Fiat 147, Renault Clio..."
+                      className="w-full bg-transparent border-b border-ink-300 dark:border-ink-700 focus:border-accent outline-none py-3 text-lg text-ink-950 dark:text-ink-50 transition-colors placeholder:text-ink-400"
+                      placeholder="Marca, modelo, año"
                     />
                   </div>
                   <div>
-                    <label className="mono-label block mb-2">Mensaje</label>
+                    <label htmlFor="mensaje" className="micro-label block mb-3">Mensaje</label>
                     <textarea
+                      id="mensaje"
                       name="mensaje"
                       required
-                      rows="4"
-                      className="w-full bg-transparent border-b-2 border-rb-gray-300 dark:border-rb-gray-700 focus:border-rb-red outline-none py-3 text-lg text-primary transition-colors resize-none placeholder:text-rb-gray-400"
+                      rows="3"
+                      className="w-full bg-transparent border-b border-ink-300 dark:border-ink-700 focus:border-accent outline-none py-3 text-lg text-ink-950 dark:text-ink-50 transition-colors resize-none placeholder:text-ink-400"
                       placeholder="Contanos qué necesitás..."
                     />
                   </div>
-                  <button type="submit" className="btn-primary mt-4">
+                  <button type="submit" className="btn-primary mt-6">
                     Enviar por WhatsApp →
                   </button>
                 </form>
               )}
             </Reveal>
 
-            <Reveal direction="right" delay={0.2}>
-              <div className="relative min-h-[500px] bg-rb-gray-100 dark:bg-rb-gray-900">
+            <Reveal delay={160}>
+              <div className="aspect-[4/5] lg:aspect-auto lg:h-full min-h-[400px] relative overflow-hidden bg-ink-100 dark:bg-ink-900">
                 <iframe
                   title="Ubicación RB Racing"
                   src="https://www.google.com/maps?q=Av.+Ram%C3%B3n+J.+C%C3%A1rcano+2016,+Villa+Carlos+Paz,+C%C3%B3rdoba&output=embed"
@@ -160,10 +172,6 @@ export default function Contact() {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
-                <div className="absolute bottom-6 left-6 bg-rb-gray-950 text-white px-6 py-4 z-10 pointer-events-none">
-                  <div className="mono-label !text-rb-red mb-1">Aquí estamos</div>
-                  <div className="font-display text-lg tracking-wide">Av. Cárcano 2016</div>
-                </div>
               </div>
             </Reveal>
           </div>
